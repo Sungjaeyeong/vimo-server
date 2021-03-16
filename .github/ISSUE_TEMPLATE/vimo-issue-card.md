@@ -1,6 +1,6 @@
 ---
-name: Vimo Issue Card
-about: issue 리포트시 사용되는 템플릿입니다
+name: Vimo Task Card
+about: task 생성시 사용되는 템플릿입니다
 title: "[Issue] 이슈내용을 적어주세요"
 labels: ''
 assignees: ''
