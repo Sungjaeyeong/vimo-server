@@ -6,6 +6,7 @@ const config = {
     host: process.env.DATABASE_SPRINT_HOST,
     username: process.env.DATABASE_SPRINT_USER,
     password: process.env.DATABASE_SPRINT_PASSWORD,
+    port: 13306,
     database: 'vimo',
     dialect: 'mysql',
     logging: false

@@ -1,7 +1,4 @@
 'use strict';
-
-const { ValidationErrorItem } = require('sequelize/types');
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('users', {
@@ -35,5 +32,3 @@ module.exports = {
     await queryInterface.dropTable('users');
   }
 };
-
-'vimo.link/vimo/src/index.html'
