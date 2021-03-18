@@ -4,9 +4,10 @@ const session = require('express-session');
 
 const app = express();
 
-const postRouter = require('./routes/post');
-const getRouter = require('./routes/get');
-const patchRouter = require('./routes/patch');
+const userRouter = require('./routes/user');
+const insertRouter = require('./routes/insert');
+const linkRouter = require('./routes/link');
+const updateRouter = require('./routes/update');
 const deleteRouter = require('./routes/delete');
 
 app.use(
@@ -28,9 +29,10 @@ app.use(
 app.use(express.json());
 app.use(cors());
 
-app.use('/post', postRouter);
-app.use('/get', getRouter);
-app.use('/patch', patchRouter);
+app.use('/user', userRouter);
+app.use('/insert', insertRouter);
+app.use('/link', linkRouter);
+app.use('/update', updateRouter);
 app.use('/delete', deleteRouter);
 
 app.use('/', (req, res) => {

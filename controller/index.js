@@ -1,6 +1,7 @@
 module.exports = {
   deletesController: require('./deletes'),
-  getsController: require('./gets'),
-  patchsController: require('./patchs'),
-  postsController: require('./posts'),
+  insertsController: require('./inserts'),
+  linksController: require('./links'),
+  updatesController: require('./updates'),
+  usersController: require('./users'),
 };

@@ -3,6 +3,6 @@ var router = express.Router();
 
 const { deletesController } = require('../controller');
 
-router.delete('/deletememo', deletesController.deletememo.delete);
+router.delete('/memo', deletesController.memo.delete);
 
 module.exports = router;
