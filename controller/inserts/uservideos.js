@@ -15,8 +15,8 @@ module.exports = {
         userId: req.body.userId,
         videoId: req.body.videoId
       })
-        .then(res.status(201).send('successfully created!'))
-        .catch(err => console.log(err))
+        .then(res.status(201).send('Successfully created!'))
+        .catch(res.status(400).send('Bad request'))
     }
   },
 };

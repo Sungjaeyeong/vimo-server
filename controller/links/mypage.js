@@ -1,6 +1,18 @@
+const { users, memos } = require('../../models')
 module.exports = {
-  get: (req, res) => {
-    const a = req.query.user_id
-    res.json({data: "id: " + a + "" })
+  get: async (req, res) => {
+    if (!req.session.userId) {
+      res.status(404).send('Not found');
+    } else {
+      const userInfo = await users.findOne({
+        where: { id: req.session.userId }
+      });
+      const memoInfo = await memos.findAll({
+        where: { userId: req.session.userId }
+      });
+      res.status(200).send({
+        data: { userInfo, memoInfo }
+      })
+    }
   },
 };
