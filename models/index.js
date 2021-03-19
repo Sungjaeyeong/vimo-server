@@ -5,13 +5,8 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
-
-const users = require('./users');
-const videos = require('./videos');
-const memos = require('./memos');
-const users_videos = require('./users_videos');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -36,12 +31,14 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+const { users, videos, users_videos, memos } = sequelize.models
+
 users.belongsToMany(videos, { through: users_videos });
 videos.belongsToMany(users, { through: users_videos });
 users.belongsToMany(videos, { through: memos });
 videos.belongsToMany(users, { through: memos });
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
 module.exports = db;

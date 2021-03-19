@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     isSocialLogin: DataTypes.BOOLEAN
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'users',
   });
   return users;
