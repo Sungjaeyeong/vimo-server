@@ -2,7 +2,7 @@ const { users_videos, users, videos } = require('../../models')
 module.exports = {
   post: async (req, res) => {
     if (!(req.body.userId && req.body.videoId && req.body.currentTime)) {
-      res.status(422).send('Required parameters are insufficient')
+      return res.status(422).send('Required parameters are insufficient')
     };
     const users_videosInfo = await users_videos.findOne({
       where: { userId: req.body.userId, videoId: req.body.videoId }

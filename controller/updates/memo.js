@@ -2,7 +2,7 @@ const { memos } = require('../../models')
 module.exports = {
   patch: async (req, res) => {
     if (!(req.body.videoTime && req.body.memoId && req.body.content)) {
-      res.status(422).send('Required parameters are insufficient')
+      return res.status(422).send('Required parameters are insufficient')
     };
     const memoInfo = await memos.findOne({
       where: { id: req.body.memoId }
