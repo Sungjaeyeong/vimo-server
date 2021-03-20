@@ -2,7 +2,7 @@ const { users } = require('../../models')
 module.exports = {
   post: async (req, res) => {
     if (!(req.body.isSocialLogin && req.body.password && req.body.email && req.body.username)) {
-      res.status(422).send('required parameters are insufficient')
+      return res.status(422).send('required parameters are insufficient')
     }
     const userInfo = await users.findAll({
       where: { email: req.body.email }
