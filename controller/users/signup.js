@@ -16,15 +16,14 @@ module.exports = {
       } else {
         profileImage = `https://vimo.link/images/default/${req.body.profilePic}`
       }
-      await users.create({
+      const insertUser = await users.create({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         profilePic: profileImage,
         isSocialLogin: req.body.isSocialLogin
       })
-        .then(res.status(201).send('created!'))
-        .catch(err => console.log(err))
+      res.status(201).send('created!')
     }
   },
 };

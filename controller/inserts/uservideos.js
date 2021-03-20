@@ -1,4 +1,4 @@
-const { users_videos } = require('../../models')
+const { users_videos, users, videos } = require('../../models')
 module.exports = {
   post: async (req, res) => {
     if (!(req.body.userId && req.body.videoId && req.body.currentTime)) {
@@ -10,13 +10,22 @@ module.exports = {
     if (users_videosInfo) {
       res.status(409).send('Data already exists.')
     } else {
-      await users_videos.create({
-        currenttime: req.body.currentTime,
-        userId: req.body.userId,
-        videoId: req.body.videoId
+      const userInfo = await users.findOne({
+        where: { id: req.body.userId }
       })
-        .then(res.status(201).send('Successfully created!'))
-        .catch(res.status(400).send('Bad request'))
+      const videoInfo = await videos.findOne({
+        where: { id: req.body.videoId }
+      })
+      if (!(userInfo && videoInfo)) {
+        res.status(400).send('Bad request')
+      } else {
+        await users_videos.create({
+          currenttime: req.body.currentTime,
+          userId: req.body.userId,
+          videoId: req.body.videoId
+        })
+        res.status(201).send('Successfully created!')
+      }
     }
   },
 };

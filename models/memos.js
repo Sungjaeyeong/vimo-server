@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   memos.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     content: {
       type: DataTypes.STRING,
       allowNull: false,
