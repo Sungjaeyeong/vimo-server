@@ -1,5 +1,5 @@
 module.exports = {
   post: (req, res) => {
-    res.json({data: "hi"})
+    res.json({ data: "hi" })
   },
 };
