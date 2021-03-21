@@ -3,18 +3,19 @@ dotenv.config();
 
 const config = {
   development: {
-    host: process.env.DATABASE_SPRINT_HOST,
-    username: process.env.DATABASE_SPRINT_USER,
-    password: process.env.DATABASE_SPRINT_PASSWORD,
-    port: 13306,
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
     database: 'vimo',
     dialect: 'mysql',
     logging: false
   },
   test: {
-    host: process.env.DATABASE_SPRINT_HOST,
-    username: process.env.DATABASE_SPRINT_USER,
-    password: process.env.DATABASE_SPRINT_PASSWORD,
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
     database: 'vimo_test',
     dialect: 'mysql',
     logging: false

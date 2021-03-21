@@ -27,7 +27,11 @@ app.use(
 );
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['https://vimo.link', 'http://localhost:3000'],
+  method: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: true,
+}));
 
 app.use('/user', userRouter);
 app.use('/insert', insertRouter);
