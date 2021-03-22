@@ -4,14 +4,14 @@ const Op = Sequelize.Op;
 
 module.exports = {
   get: async (req, res) => {
-    // res.json({data: "hi"})
     await videos.findAll({
-      where: {title:  {
+      where: {
+        title: {
           [Op.like]: "%" + req.query.keyword + "%"
         }
       }
     }).then(data => {
-      res.status(200).send({videos: data})
+      res.status(200).send({ videos: data })
     }).catch(() => {
       res.status(400).send('Bad Request!')
     })
