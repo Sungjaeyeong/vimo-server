@@ -30,7 +30,23 @@ module.exports = (sequelize, DataTypes) => {
     summary: {
       type: DataTypes.STRING,
       defaultValue: '줄거리를 제공하지 않는 컨텐츠입니다.'
-    }
+    },
+    pubDate: {
+      type: DataTypes.STRING,
+      defaultValue: '정보없음'
+    },
+    director: {
+      type: DataTypes.STRING,
+      defaultValue: '정보없음'
+    },
+    actor: {
+      type: DataTypes.STRING,
+      defaultValue: '정보없음'
+    },
+    memoNum: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
   }, {
     sequelize,
     modelName: 'videos',

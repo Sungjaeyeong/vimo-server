@@ -1,4 +1,4 @@
-const { memos } = require('../../models');
+const { memos, videos } = require('../../models');
 module.exports = {
   post: async (req, res) => {
     if (!(req.body.userId && req.body.videoId && req.body.content && req.body.videoTime)) {
@@ -10,6 +10,14 @@ module.exports = {
     if (memoInfo) {
       res.status(409).send('memo already exists!')
     } else {
+      const videoInfo = await videos.findOne({
+        where: { id: req.body.videoId }
+      });
+      await videos.update({ memoNum: videoInfo.memoNum + 1 }, {
+        where: {
+          id: req.body.videoId,
+        }
+      })
       await memos.create({
         userId: req.body.userId,
         videoId: req.body.videoId,
