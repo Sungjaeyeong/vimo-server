@@ -20,7 +20,7 @@ app.use(
       domain: 'vimo.link',
       path: '/',
       maxAge: 24 * 6 * 60 * 10000,
-      sameSite: 'none',
+      sameSite: 'strict',
       httpOnly: true,
       secure: true,
     },
@@ -29,7 +29,7 @@ app.use(
 
 app.use(express.json());
 app.use(cors({
-  origin: ['https://vimo.link', 'http://localhost:3000'],
+  origin: ['https://vimo.link', 'http://localhost:3000', 'https://localhost:3000'],
   method: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true,
 }));

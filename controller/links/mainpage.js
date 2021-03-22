@@ -55,7 +55,7 @@ module.exports = {
         group: ['userId'],
       })
       memosGroubyUser.sort((b, a) => {
-        a.dataValues.count - b.dataValues.count
+        return a.dataValues.count - b.dataValues.count
       });
 
       // 메모 컬렉션
