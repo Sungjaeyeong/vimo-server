@@ -22,7 +22,7 @@ module.exports = {
         await users_videos.create({
           currenttime: req.body.currentTime,
           userId: req.body.userId,
-          videoId: req.body.videoId
+          videoId: req.body.videoId,
         })
         res.status(201).send('Successfully created!')
       }
