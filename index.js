@@ -9,6 +9,7 @@ const insertRouter = require('./routes/insert');
 const linkRouter = require('./routes/link');
 const updateRouter = require('./routes/update');
 const deleteRouter = require('./routes/delete');
+const oauthRouter = require('./routes/oauth');
 
 app.use(
   session({
@@ -38,6 +39,7 @@ app.use('/insert', insertRouter);
 app.use('/link', linkRouter);
 app.use('/update', updateRouter);
 app.use('/delete', deleteRouter);
+app.use('/oauth', oauthRouter);
 
 app.use('/', (req, res) => {
   res.send("Hello World");

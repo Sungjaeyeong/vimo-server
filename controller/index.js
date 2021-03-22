@@ -4,4 +4,5 @@ module.exports = {
   linksController: require('./links'),
   updatesController: require('./updates'),
   usersController: require('./users'),
+  oauthsController: require('./oauths'),
 };
