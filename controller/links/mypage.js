@@ -10,8 +10,18 @@ module.exports = {
       const memoInfo = await memos.findAll({
         where: { userId: req.session.userId }
       });
+      let { id, username, email, profilePic, isSocialLogin } = userInfo
       res.status(200).send({
-        data: { userInfo, memoInfo }
+        data: {
+          userInfo: {
+            id,
+            username,
+            email,
+            profilePic,
+            isSocialLogin
+          },
+          memoInfo
+        }
       })
     }
   },
