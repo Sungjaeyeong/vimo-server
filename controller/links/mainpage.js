@@ -7,7 +7,7 @@ module.exports = {
       order: [
         ['memoNum', 'DESC']
       ],
-      limit: 20
+      limit: 15
     });
 
     if (!popularVideos) {
@@ -18,7 +18,8 @@ module.exports = {
     const newVideos = await videos.findAll({
       order: [
         ['pubDate', 'DESC']
-      ]
+      ],
+      limit: 15
     });
 
     if (!newVideos) {
@@ -29,12 +30,21 @@ module.exports = {
     const newMemos = await memos.findAll({
       order: [
         ['createdAt', 'DESC']
-      ]
+      ],
+      limit: 7
     });
 
     if (!newMemos) {
       return res.status(404).send('No newMemos')
     }
+
+    const newMemos_videoId = newMemos.map(el => el.videoId);
+
+    const newMemosVidoes = await videos.findAll({
+      where: {
+        id: newMemos_videoId
+      }
+    })
 
     const popularvideoId = popularVideos.map(item => item.id);
 
@@ -42,18 +52,31 @@ module.exports = {
     const popularMemos = await memos.findAll({
       where: {
         videoId: popularvideoId
-      }
+      },
+      limit: 7
     })
 
     if (!popularMemos) {
       return res.status(404).send('No popularMemos')
     }
 
+    const popularMemos_videoId = popularMemos.map(el => el.videoId);
+
+    const popularMemosVidoes = await videos.findAll({
+      where: {
+        id: popularMemos_videoId
+      }
+    })
+
     if (!req.session.userId) {
       const memosGroubyUser = await memos.findAll({
         attributes: ['userId', [sequelize.fn('count', sequelize.col('userId')), 'count']],
         group: ['userId'],
       })
+
+      if (memosGroubyUser.length === 0) {
+        return res.status(404).send('No memos')
+      }
       memosGroubyUser.sort((b, a) => {
         return a.dataValues.count - b.dataValues.count
       });
@@ -69,6 +92,14 @@ module.exports = {
         return res.status(404).send('No colletionMemos')
       }
 
+      const colletionMemos_videoId = colletionMemos.map(el => el.videoId);
+
+      const colletionMemosVidoes = await videos.findAll({
+        where: {
+          id: colletionMemos_videoId
+        }
+      })
+
       res.status(200).send({
         message: 'Ok',
         data: {
@@ -77,6 +108,9 @@ module.exports = {
           newMemos,
           popularMemos,
           colletionMemos,
+          newMemosVidoes,
+          popularMemosVidoes,
+          colletionMemosVidoes
         }
       })
     } else {
@@ -88,6 +122,7 @@ module.exports = {
         order: [
           ['updatedAt', 'DESC']
         ],
+        limit: 15
       });
 
       if (!myVideos) {
@@ -100,12 +135,21 @@ module.exports = {
       const viewdContentsMemos = await memos.findAll({
         where: {
           videoId: myVideosId
-        }
+        },
+        limit: 7
       })
 
       if (!viewdContentsMemos) {
         return res.status(404).send('No viewdContentsMemos')
       }
+
+      const viewdContentsMemos_videoId = viewdContentsMemos.map(el => el.videoId);
+
+      const viewdContentsMemosVidoes = await videos.findAll({
+        where: {
+          id: viewdContentsMemos_videoId
+        }
+      })
 
       res.status(200).send({
         message: 'Ok',
@@ -115,7 +159,10 @@ module.exports = {
           newVideos,
           newMemos,
           popularMemos,
-          viewdContentsMemos
+          viewdContentsMemos,
+          newMemosVidoes,
+          popularMemosVidoes,
+          viewdContentsMemosVidoes
         }
       })
     }

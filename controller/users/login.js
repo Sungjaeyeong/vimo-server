@@ -6,9 +6,18 @@ module.exports = {
     })
     if (userInfo) {
       req.session.userId = userInfo.id;
-      res.status(200).send({data: userInfo})
+      let { id, username, email, profilePic, isSocialLogin } = userInfo
+      res.status(200).send({
+        data: {
+          id,
+          username,
+          email,
+          profilePic,
+          isSocialLogin
+        }
+      })
     } else {
-      res.status(404).send('no')
+      res.status(401).send("Invalid user or Wrong password")
     }
   },
 };

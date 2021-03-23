@@ -13,6 +13,9 @@ module.exports = {
       const videoInfo = await videos.findOne({
         where: { id: req.body.videoId }
       });
+      if (!videoInfo) {
+        res.status(404).send('No video')
+      }
       await videos.update({ memoNum: videoInfo.memoNum + 1 }, {
         where: {
           id: req.body.videoId,
