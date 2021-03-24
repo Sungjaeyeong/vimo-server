@@ -1,5 +1,5 @@
 const { users_vidoes } = require('../../models');
-
+const JWT = require('jsonwebtoken');
 module.exports = {
   get: async (req, res) => {
     let data;
