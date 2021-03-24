@@ -71,27 +71,43 @@ module.exports = {
       }
     })
 
-    let data = { id: 0 };
+    let data;
+    let stateData;
     const authorization = req.headers['authorization'];
     if (!authorization) {
       res.json({ data: null, message: "invalid access token" })
     } else {
       const token = authorization.split(' ')[1];
       if (token) {
-        data = JWT.verify(token, process.env.ACCESS_SECRET);
+        stateData = JWT.verify(token, process.env.ACCESS_SECRET);
       }
-
-    }
-
-
-    const accessToken = req.cookies.accessToken;
-    if (accessToken) {
-      data = JWT.verify(accessToken, process.env.ACCESS_SECRET);
+      data = stateData
     }
     console.log(data)
-    if (!data) {
-      res.json({ message: "Go refresh" })
+
+    let expire = false;
+    let cookieData;
+    const accessToken = req.cookies.accessToken;
+    if (accessToken) {
+      cookieData = JWT.verify(accessToken, process.env.ACCESS_SECRET, (err) => {
+        if (err) {
+          expire = true;
+        }
+      });
+      console.log('2' + data)
     }
+    if (expire === true) {
+      if (!req.cookies.refreshToken) {
+        res.json({ message: "refresh token not provided" })
+      } else {
+
+      }
+    }
+
+    if (!stateData) {
+      data = cookieData;
+    }
+    if (!data) data = { id: 0 }
     const userInfo = await users.findOne({
       where: { id: data.id }
     })
@@ -134,12 +150,18 @@ module.exports = {
         data: {
           popularVideos,
           newVideos,
-          newMemos,
-          popularMemos,
-          colletionMemos,
-          newMemosVidoes,
-          popularMemosVidoes,
-          colletionMemosVidoes
+          newMemos: {
+            newMemos,
+            newMemosVidoes
+          },
+          popularMemos: {
+            popularMemos,
+            popularMemosVidoes
+          },
+          colletionMemos: {
+            colletionMemos,
+            colletionMemosVidoes,
+          },
         }
       })
     } else {
@@ -187,12 +209,18 @@ module.exports = {
           myVideos,
           popularVideos,
           newVideos,
-          newMemos,
-          popularMemos,
-          viewdContentsMemos,
-          newMemosVidoes,
-          popularMemosVidoes,
-          viewdContentsMemosVidoes
+          newMemos: {
+            newMemos,
+            newMemosVidoes
+          },
+          popularMemos: {
+            popularMemos,
+            popularMemosVidoes
+          },
+          viewdContentsMemos: {
+            viewdContentsMemos,
+            viewdContentsMemosVidoes
+          },
         }
       })
     }

@@ -14,7 +14,7 @@ module.exports = {
         profilePic,
         isSocialLogin,
         iat: Math.floor(Date.now() / 1000) - 30,
-        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
       },
         process.env.ACCESS_SECRET,
       )
@@ -25,28 +25,35 @@ module.exports = {
         profilePic,
         isSocialLogin,
         iat: Math.floor(Date.now() / 1000) - 30,
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 3),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 14),
       },
         process.env.REFRESH_SECRET,
       )
       res.cookie('accessToken', accessToken,
         {
-          // domain: 'vimo.link',
-          // path: '/',
-          // httpOnly: true,
-          // secure: true,
-          // sameSite: 'none'
+          domain: 'vimo.link',
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'none'
         })
       res.cookie('refreshToken', refreshToken,
         {
-          // domain: 'vimo.link',
-          // path: '/',
-          // httpOnly: true,
-          // secure: true,
-          // sameSite: 'none'
+          domain: 'vimo.link',
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'none'
         })
       res.status(200).send({
-        data: { accessToken },
+        data: {
+          accessToken,
+          id,
+          username,
+          email,
+          profilePic,
+          isSocialLogin,
+        },
         message: 'Ok'
       })
     } else {
