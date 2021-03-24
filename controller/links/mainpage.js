@@ -33,6 +33,9 @@ module.exports = {
       order: [
         ['createdAt', 'DESC']
       ],
+      include: [{
+        model: users
+      }],
       limit: 7,
     });
 
