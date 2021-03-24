@@ -33,7 +33,7 @@ module.exports = {
       order: [
         ['createdAt', 'DESC']
       ],
-      include: [{
+      included: [{
         model: users
       }],
       limit: 7,
