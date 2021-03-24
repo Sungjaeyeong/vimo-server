@@ -1,5 +1,7 @@
 const { users, videos, memos, users_videos } = require('../../models');
 const sequelize = require('sequelize');
+const JWT = require('jsonwebtoken');
+
 module.exports = {
   get: async (req, res) => {
     // 메모많은 비디오
@@ -28,10 +30,13 @@ module.exports = {
 
     // 새롭게 올라온 메모
     const newMemos = await memos.findAll({
+      include: [{
+        model: users
+      }],
       order: [
         ['createdAt', 'DESC']
       ],
-      limit: 7
+      limit: 7,
     });
 
     if (!newMemos) {
@@ -53,7 +58,10 @@ module.exports = {
       where: {
         videoId: popularvideoId
       },
-      limit: 7
+      include: [{
+        model: users
+      }],
+      limit: 7,
     })
 
     if (!popularMemos) {
@@ -68,7 +76,46 @@ module.exports = {
       }
     })
 
-    if (!req.session.userId) {
+    let data;
+    let stateData;
+    const authorization = req.headers['authorization'];
+    if (!authorization) {
+      res.json({ data: null, message: "invalid access token" })
+    } else {
+      const token = authorization.split(' ')[1];
+      if (token) {
+        stateData = JWT.verify(token, process.env.ACCESS_SECRET);
+      }
+      data = stateData
+    }
+    console.log(data)
+
+    let expire = false;
+    let cookieData;
+    const accessToken = req.cookies.accessToken;
+    if (accessToken) {
+      cookieData = JWT.verify(accessToken, process.env.ACCESS_SECRET);
+    }
+
+    if (expire === true) {
+      if (!req.cookies.refreshToken) {
+        res.json({ message: "refresh token not provided" })
+      } else {
+
+      }
+    }
+
+    if (!stateData) {
+      data = cookieData;
+    }
+
+    if (!data) data = { id: 0 }
+    const userInfo = await users.findOne({
+      where: { id: data.id }
+    })
+
+
+    if (!userInfo) {
       const memosGroubyUser = await memos.findAll({
         attributes: ['userId', [sequelize.fn('count', sequelize.col('userId')), 'count']],
         group: ['userId'],
@@ -85,7 +132,10 @@ module.exports = {
       const colletionMemos = await memos.findAll({
         where: {
           userId: memosGroubyUser[0].dataValues.userId
-        }
+        },
+        include: [{
+          model: users
+        }],
       })
 
       if (!colletionMemos) {
@@ -110,19 +160,20 @@ module.exports = {
           colletionMemos,
           newMemosVidoes,
           popularMemosVidoes,
-          colletionMemosVidoes
+          colletionMemosVidoes,
         }
       })
     } else {
+
       // 감상한 비디오
       const myVideos = await users_videos.findAll({
         where: {
-          userId: req.session.userId,
+          userId: userInfo.id,
         },
         order: [
           ['updatedAt', 'DESC']
         ],
-        limit: 15
+        limit: 10
       });
 
       if (!myVideos) {
@@ -136,7 +187,10 @@ module.exports = {
         where: {
           videoId: myVideosId
         },
-        limit: 7
+        include: [{
+          model: users
+        }],
+        limit: 7,
       })
 
       if (!viewdContentsMemos) {
@@ -162,10 +216,11 @@ module.exports = {
           viewdContentsMemos,
           newMemosVidoes,
           popularMemosVidoes,
-          viewdContentsMemosVidoes
+          viewdContentsMemosVidoes,
         }
       })
     }
+
 
   },
 };

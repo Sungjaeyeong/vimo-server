@@ -11,4 +11,6 @@ router.post('/signup', usersController.signup.post);
 
 router.post('/sociallogin', usersController.sociallogin.post);
 
+router.get('/refreshtokenrequest', usersController.refreshtokenrequest.get);
+
 module.exports = router;

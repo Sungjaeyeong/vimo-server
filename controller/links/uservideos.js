@@ -1,9 +1,7 @@
-const { users, memos, videos } = require('../../models')
+const { users_videos } = require('../../models');
 const JWT = require('jsonwebtoken');
 module.exports = {
   get: async (req, res) => {
-
-
     let data;
     let stateData;
     const authorization = req.headers['authorization'];
@@ -37,32 +35,18 @@ module.exports = {
     }
 
     if (!data) data = { id: 0 }
-
-    const userInfo = await users.findOne({
-      where: { id: data.id }
-    });
-    if (!userInfo) {
-      return res.status(404).send('Not Found')
-    }
-    const memoInfo = await memos.findAll({
-      where: { userId: data.id },
-      include: [{
-        model: videos
-      }],
-    });
-    let { id, username, email, profilePic, isSocialLogin } = userInfo
-    res.status(200).send({
-      data: {
-        userInfo: {
-          id,
-          username,
-          email,
-          profilePic,
-          isSocialLogin
-        },
-        memoInfo
+    const userVideosInfo = await users_videos.findOne({
+      where: {
+        userId: data.id,
+        videoId: req.query.videoid
       }
-    })
+    });
+
+    if (!userVideosInfo) {
+      res.send({ data: null })
+    } else {
+      res.send({ data: userVideosInfo })
+    }
 
   },
 };
