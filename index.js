@@ -11,21 +11,21 @@ const updateRouter = require('./routes/update');
 const deleteRouter = require('./routes/delete');
 const oauthRouter = require('./routes/oauth');
 
-app.use(
-  session({
-    secret: 'vimo',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      domain: 'vimo.link',
-      path: '/',
-      maxAge: 24 * 6 * 60 * 10000,
-      sameSite: 'strict',
-      httpOnly: true,
-      // secure: true,
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: 'vimo',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       domain: 'localhost',
+//       path: '/',
+//       maxAge: 24 * 6 * 60 * 10000,
+//       // sameSite: 'strict',
+//       httpOnly: true,
+//       // secure: true,
+//     },
+//   })
+// );
 
 app.use(express.json());
 app.use(cors({

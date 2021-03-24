@@ -1,5 +1,7 @@
 const { users, videos, memos, users_videos } = require('../../models');
 const sequelize = require('sequelize');
+const JWT = require('jsonwebtoken');
+
 module.exports = {
   get: async (req, res) => {
     // 메모많은 비디오
@@ -68,103 +70,118 @@ module.exports = {
       }
     })
 
-    if (!req.session.userId) {
-      const memosGroubyUser = await memos.findAll({
-        attributes: ['userId', [sequelize.fn('count', sequelize.col('userId')), 'count']],
-        group: ['userId'],
-      })
-
-      if (memosGroubyUser.length === 0) {
-        return res.status(404).send('No memos')
-      }
-      memosGroubyUser.sort((b, a) => {
-        return a.dataValues.count - b.dataValues.count
-      });
-
-      // 메모 컬렉션
-      const colletionMemos = await memos.findAll({
-        where: {
-          userId: memosGroubyUser[0].dataValues.userId
-        }
-      })
-
-      if (!colletionMemos) {
-        return res.status(404).send('No colletionMemos')
-      }
-
-      const colletionMemos_videoId = colletionMemos.map(el => el.videoId);
-
-      const colletionMemosVidoes = await videos.findAll({
-        where: {
-          id: colletionMemos_videoId
-        }
-      })
-
-      res.status(200).send({
-        message: 'Ok',
-        data: {
-          popularVideos,
-          newVideos,
-          newMemos,
-          popularMemos,
-          colletionMemos,
-          newMemosVidoes,
-          popularMemosVidoes,
-          colletionMemosVidoes
-        }
-      })
+    const authorization = req.headers['authorization'];
+    console.log('오스: ' + authorization)
+    if (!authorization) {
+      res.json({ data: null, message: "invalid access token" })
     } else {
-      // 감상한 비디오
-      const myVideos = await users_videos.findAll({
-        where: {
-          userId: req.session.userId,
-        },
-        order: [
-          ['updatedAt', 'DESC']
-        ],
-        limit: 15
+      const token = authorization.split(' ')[1];
+      const data = JWT.verify(token, process.env.ACCESS_SECRET);
+      const userInfo = await users.findOne({
+        where: { id: data.id },
       });
 
-      if (!myVideos) {
-        return res.status(404).send('No myVideos')
-      }
+      if (!userInfo) {
+        const memosGroubyUser = await memos.findAll({
+          attributes: ['userId', [sequelize.fn('count', sequelize.col('userId')), 'count']],
+          group: ['userId'],
+        })
 
-      const myVideosId = myVideos.map(item => item.videoId);
-
-      // 감상한 컨텐츠의 메모
-      const viewdContentsMemos = await memos.findAll({
-        where: {
-          videoId: myVideosId
-        },
-        limit: 7
-      })
-
-      if (!viewdContentsMemos) {
-        return res.status(404).send('No viewdContentsMemos')
-      }
-
-      const viewdContentsMemos_videoId = viewdContentsMemos.map(el => el.videoId);
-
-      const viewdContentsMemosVidoes = await videos.findAll({
-        where: {
-          id: viewdContentsMemos_videoId
+        if (memosGroubyUser.length === 0) {
+          return res.status(404).send('No memos')
         }
-      })
+        memosGroubyUser.sort((b, a) => {
+          return a.dataValues.count - b.dataValues.count
+        });
 
-      res.status(200).send({
-        message: 'Ok',
-        data: {
-          myVideos,
-          popularVideos,
-          newVideos,
-          newMemos,
-          popularMemos,
-          viewdContentsMemos,
-          newMemosVidoes,
-          popularMemosVidoes,
-          viewdContentsMemosVidoes
+        // 메모 컬렉션
+        const colletionMemos = await memos.findAll({
+          where: {
+            userId: memosGroubyUser[0].dataValues.userId
+          }
+        })
+
+        if (!colletionMemos) {
+          return res.status(404).send('No colletionMemos')
         }
-      })
+
+        const colletionMemos_videoId = colletionMemos.map(el => el.videoId);
+
+        const colletionMemosVidoes = await videos.findAll({
+          where: {
+            id: colletionMemos_videoId
+          }
+        })
+
+        res.status(200).send({
+          message: 'Ok',
+          data: {
+            popularVideos,
+            newVideos,
+            newMemos,
+            popularMemos,
+            colletionMemos,
+            newMemosVidoes,
+            popularMemosVidoes,
+            colletionMemosVidoes
+          }
+        })
+      } else {
+        const token = authorization.split(' ')[1];
+        const data = JWT.verify(token, process.env.ACCESS_SECRET);
+
+        // 감상한 비디오
+        const myVideos = await users_videos.findAll({
+          where: {
+            userId: userInfo.id,
+          },
+          order: [
+            ['updatedAt', 'DESC']
+          ],
+          limit: 10
+        });
+
+        if (!myVideos) {
+          return res.status(404).send('No myVideos')
+        }
+
+        const myVideosId = myVideos.map(item => item.videoId);
+
+        // 감상한 컨텐츠의 메모
+        const viewdContentsMemos = await memos.findAll({
+          where: {
+            videoId: myVideosId
+          },
+          limit: 7
+        })
+
+        if (!viewdContentsMemos) {
+          return res.status(404).send('No viewdContentsMemos')
+        }
+
+        const viewdContentsMemos_videoId = viewdContentsMemos.map(el => el.videoId);
+
+        const viewdContentsMemosVidoes = await videos.findAll({
+          where: {
+            id: viewdContentsMemos_videoId
+          }
+        })
+
+        res.status(200).send({
+          message: 'Ok',
+          data: {
+            myVideos,
+            popularVideos,
+            newVideos,
+            newMemos,
+            popularMemos,
+            viewdContentsMemos,
+            newMemosVidoes,
+            popularMemosVidoes,
+            viewdContentsMemosVidoes
+          }
+        })
+      }
     }
 
   },
