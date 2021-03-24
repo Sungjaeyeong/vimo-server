@@ -49,7 +49,7 @@ module.exports = {
       }
     })
 
-    for (let i = 0; i < newMos.length; i++) {
+    for (let i = 0; i < newMemos.length; i++) {
       newMemos[i].newMemosVidoes = newMemosVidoes[i]
     }
 
@@ -75,7 +75,7 @@ module.exports = {
       }
     })
 
-    for (let i = 0; i < newMos.length; i++) {
+    for (let i = 0; i < popularMemos.length; i++) {
       popularMemos[i].popularMemosVidoes = popularMemosVidoes[i]
     }
 
@@ -148,7 +148,7 @@ module.exports = {
         }
       })
 
-      for (let i = 0; i < newMos.length; i++) {
+      for (let i = 0; i < colletionMemos.length; i++) {
         colletionMemos[i].colletionMemosVidoes = colletionMemosVidoes[i]
       }
 
@@ -201,7 +201,7 @@ module.exports = {
         }
       })
 
-      for (let i = 0; i < newMos.length; i++) {
+      for (let i = 0; i < viewdContentsMemos.length; i++) {
         viewdContentsMemos[i].viewdContentsMemosVidoes = viewdContentsMemosVidoes[i]
       }
 
