@@ -3,5 +3,5 @@ module.exports = {
   logout: require('./logout'),
   signup: require('./signup'),
   sociallogin: require('./sociallogin'),
-  refreshTokenRequest: require('./refreshTokenRequest'),
+  refreshtokenrequest: require('./refreshTokenRequest'),
 };

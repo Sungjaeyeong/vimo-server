@@ -1,6 +1,7 @@
 const { users, videos, memos, users_videos } = require('../../models');
 const sequelize = require('sequelize');
 const JWT = require('jsonwebtoken');
+const { refreshTokenRequest } = require('../users');
 
 module.exports = {
   get: async (req, res) => {
@@ -70,14 +71,19 @@ module.exports = {
       }
     })
 
-    let userInfo
-    const authorization = req.headers['authorization'];
-    console.log('오스: ' + authorization)
-    if (!authorization) {
-      res.json({ data: null, message: "invalid access token" })
+    let userInfo;
+    let data = { id: 0 };
+    const accessToken = req.cookies.accessToken;
+    console.log('쿠키: ' + req.cookies)
+    if (!accessToken) {
+      res.json({ data: null, message: "No accessToken" })
     } else {
-      const token = authorization.split(' ')[1];
-      const data = JWT.verify(token, process.env.ACCESS_SECRET);
+
+      data = JWT.verify(accessToken, process.env.ACCESS_SECRET);
+
+      if (!data) {
+        res.json({ message: "Go refresh" })
+      }
       userInfo = await users.findOne({
         where: { id: data.id },
       });
@@ -130,8 +136,6 @@ module.exports = {
         }
       })
     } else {
-      const token = authorization.split(' ')[1];
-      const data = JWT.verify(token, process.env.ACCESS_SECRET);
 
       // 감상한 비디오
       const myVideos = await users_videos.findAll({

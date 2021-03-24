@@ -29,15 +29,24 @@ module.exports = {
       },
         process.env.REFRESH_SECRET,
       )
-      res.cookie('refreshToken', refreshToken, {
-        domain: 'vimo.link',
-        path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-      })
+      res.cookie('accessToken', accessToken,
+        {
+          // domain: 'vimo.link',
+          // path: '/',
+          // httpOnly: true,
+          // secure: true,
+          // sameSite: 'none'
+        })
+      res.cookie('refreshToken', refreshToken,
+        {
+          // domain: 'vimo.link',
+          // path: '/',
+          // httpOnly: true,
+          // secure: true,
+          // sameSite: 'none'
+        })
       res.status(200).send({
-        data: { accessToken },
+        // data: { accessToken },
         message: 'Ok'
       })
     } else {
