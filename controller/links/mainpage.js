@@ -160,6 +160,9 @@ module.exports = {
           newMemos,
           popularMemos,
           colletionMemos,
+          newMemosVidoes,
+          popularMemosVidoes,
+          colletionMemosVidoes,
         }
       })
     } else {
@@ -214,6 +217,9 @@ module.exports = {
           newMemos,
           popularMemos,
           viewdContentsMemos,
+          newMemosVidoes,
+          popularMemosVidoes,
+          viewdContentsMemosVidoes,
         }
       })
     }
