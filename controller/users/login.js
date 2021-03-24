@@ -9,21 +9,13 @@ module.exports = {
       let { id, username, email, profilePic, isSocialLogin } = userInfo
       const accessToken = JWT.sign({
         id,
-        username,
-        email,
-        profilePic,
-        isSocialLogin,
         iat: Math.floor(Date.now() / 1000) - 30,
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 4),
       },
         process.env.ACCESS_SECRET,
       )
       const refreshToken = JWT.sign({
         id,
-        username,
-        email,
-        profilePic,
-        isSocialLogin,
         iat: Math.floor(Date.now() / 1000) - 30,
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 14),
       },

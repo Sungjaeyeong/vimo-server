@@ -96,6 +96,7 @@ module.exports = {
     if (accessToken) {
       cookieData = JWT.verify(accessToken, process.env.ACCESS_SECRET);
     }
+
     if (expire === true) {
       if (!req.cookies.refreshToken) {
         res.json({ message: "refresh token not provided" })
@@ -107,6 +108,7 @@ module.exports = {
     if (!stateData) {
       data = cookieData;
     }
+
     if (!data) data = { id: 0 }
     const userInfo = await users.findOne({
       where: { id: data.id }
