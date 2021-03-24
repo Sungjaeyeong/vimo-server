@@ -35,24 +35,23 @@ module.exports = {
         ['createdAt', 'DESC']
       ],
       limit: 7,
-      include: [
-        {
-          model: videos
-        }
-      ]
     });
 
     if (!newMemos) {
       return res.status(404).send('No newMemos')
     }
 
-    // const newMemos_videoId = newMemos.map(el => el.videoId);
+    const newMemos_videoId = newMemos.map(el => el.videoId);
 
-    // const newMemosVidoes = await videos.findAll({
-    //   where: {
-    //     id: newMemos_videoId
-    //   }
-    // })
+    const newMemosVidoes = await videos.findAll({
+      where: {
+        id: newMemos_videoId
+      }
+    })
+
+    for (let i = 0; i < newMos.length; i++) {
+      newMemos[i].newMemosVidoes = newMemosVidoes[i]
+    }
 
     const popularvideoId = popularVideos.map(item => item.id);
 
@@ -62,24 +61,23 @@ module.exports = {
         videoId: popularvideoId
       },
       limit: 7,
-      include: [
-        {
-          model: videos
-        }
-      ]
     })
 
     if (!popularMemos) {
       return res.status(404).send('No popularMemos')
     }
 
-    // const popularMemos_videoId = popularMemos.map(el => el.videoId);
+    const popularMemos_videoId = popularMemos.map(el => el.videoId);
 
-    // const popularMemosVidoes = await videos.findAll({
-    //   where: {
-    //     id: popularMemos_videoId
-    //   }
-    // })
+    const popularMemosVidoes = await videos.findAll({
+      where: {
+        id: popularMemos_videoId
+      }
+    })
+
+    for (let i = 0; i < newMos.length; i++) {
+      popularMemos[i].popularMemosVidoes = popularMemosVidoes[i]
+    }
 
     let data;
     let stateData;
@@ -136,24 +134,23 @@ module.exports = {
         where: {
           userId: memosGroubyUser[0].dataValues.userId
         },
-        include: [
-          {
-            model: videos
-          }
-        ]
       })
 
       if (!colletionMemos) {
         return res.status(404).send('No colletionMemos')
       }
 
-      // const colletionMemos_videoId = colletionMemos.map(el => el.videoId);
+      const colletionMemos_videoId = colletionMemos.map(el => el.videoId);
 
-      // const colletionMemosVidoes = await videos.findAll({
-      //   where: {
-      //     id: colletionMemos_videoId
-      //   }
-      // })
+      const colletionMemosVidoes = await videos.findAll({
+        where: {
+          id: colletionMemos_videoId
+        }
+      })
+
+      for (let i = 0; i < newMos.length; i++) {
+        colletionMemos[i].colletionMemosVidoes = colletionMemosVidoes[i]
+      }
 
       res.status(200).send({
         message: 'Ok',
@@ -190,24 +187,23 @@ module.exports = {
           videoId: myVideosId
         },
         limit: 7,
-        include: [
-          {
-            model: videos
-          }
-        ]
       })
 
       if (!viewdContentsMemos) {
         return res.status(404).send('No viewdContentsMemos')
       }
 
-      // const viewdContentsMemos_videoId = viewdContentsMemos.map(el => el.videoId);
+      const viewdContentsMemos_videoId = viewdContentsMemos.map(el => el.videoId);
 
-      // const viewdContentsMemosVidoes = await videos.findAll({
-      //   where: {
-      //     id: viewdContentsMemos_videoId
-      //   }
-      // })
+      const viewdContentsMemosVidoes = await videos.findAll({
+        where: {
+          id: viewdContentsMemos_videoId
+        }
+      })
+
+      for (let i = 0; i < newMos.length; i++) {
+        viewdContentsMemos[i].viewdContentsMemosVidoes = viewdContentsMemosVidoes[i]
+      }
 
       res.status(200).send({
         message: 'Ok',
