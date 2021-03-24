@@ -62,6 +62,9 @@ module.exports = {
       where: {
         videoId: popularvideoId
       },
+      include: [{
+        model: users
+      }],
       limit: 7,
     })
 
@@ -136,6 +139,9 @@ module.exports = {
         where: {
           userId: memosGroubyUser[0].dataValues.userId
         },
+        include: [{
+          model: users
+        }],
       })
 
       if (!colletionMemos) {
@@ -191,6 +197,9 @@ module.exports = {
         where: {
           videoId: myVideosId
         },
+        include: [{
+          model: users
+        }],
         limit: 7,
       })
 

@@ -43,5 +43,7 @@ videos.belongsToMany(users, { through: memos });
 
 users.hasMany(memos);
 memos.belongsTo(users);
+videos.hasMany(memos);
+memos.belongsTo(videos);
 
 module.exports = db;
