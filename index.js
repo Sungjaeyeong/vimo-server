@@ -30,7 +30,7 @@ const oauthRouter = require('./routes/oauth');
 
 app.use(express.json());
 app.use(cors({
-  origin: ['https://vimo.link', 'http://localhost:3000', 'https://localhost:3000'],
+  origin: ['https://vimo.link', 'http://localhost:3000', 'https://localhost:3000', 'http://vimo.link.s3-website.ap-northeast-2.amazonaws.com'],
   method: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true,
 }));
