@@ -2,11 +2,6 @@ const { users, videos, memos, users_videos } = require('../../models');
 const sequelize = require('sequelize');
 const JWT = require('jsonwebtoken');
 
-users.belongsToMany(videos, { through: users_videos });
-videos.belongsToMany(users, { through: users_videos });
-users.belongsToMany(videos, { through: memos });
-videos.belongsToMany(users, { through: memos });
-
 module.exports = {
   get: async (req, res) => {
     // 메모많은 비디오
@@ -35,9 +30,9 @@ module.exports = {
 
     // 새롭게 올라온 메모
     const newMemos = await memos.findAll({
-      include: [{
-        model: users
-      }],
+      // include: [{
+      //   model: users
+      // }],
       order: [
         ['createdAt', 'DESC']
       ],
