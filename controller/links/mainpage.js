@@ -51,10 +51,6 @@ module.exports = {
       }
     })
 
-    for (let i = 0; i < newMemos.length; i++) {
-      newMemos[i].newMemosVidoes = newMemosVidoes[i]
-    }
-
     const popularvideoId = popularVideos.map(item => item.id);
 
     // 인기컨텐츠 메모
@@ -79,10 +75,6 @@ module.exports = {
         id: popularMemos_videoId
       }
     })
-
-    for (let i = 0; i < popularMemos.length; i++) {
-      popularMemos[i].popularMemosVidoes = popularMemosVidoes[i]
-    }
 
     let data;
     let stateData;
@@ -156,10 +148,6 @@ module.exports = {
         }
       })
 
-      for (let i = 0; i < colletionMemos.length; i++) {
-        colletionMemos[i].colletionMemosVidoes = colletionMemosVidoes[i]
-      }
-
       res.status(200).send({
         message: 'Ok',
         data: {
@@ -214,10 +202,6 @@ module.exports = {
           id: viewdContentsMemos_videoId
         }
       })
-
-      for (let i = 0; i < viewdContentsMemos.length; i++) {
-        viewdContentsMemos[i].viewdContentsMemosVidoes = viewdContentsMemosVidoes[i]
-      }
 
       res.status(200).send({
         message: 'Ok',

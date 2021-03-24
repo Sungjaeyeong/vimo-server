@@ -1,4 +1,4 @@
-const { users, memos } = require('../../models')
+const { users, memos, videos } = require('../../models')
 const JWT = require('jsonwebtoken');
 module.exports = {
   get: async (req, res) => {
@@ -45,7 +45,10 @@ module.exports = {
       return res.status(404).send('Not Found')
     }
     const memoInfo = await memos.findAll({
-      where: { userId: data.id }
+      where: { userId: data.id },
+      include: [{
+        model: videos
+      }],
     });
     let { id, username, email, profilePic, isSocialLogin } = userInfo
     res.status(200).send({
