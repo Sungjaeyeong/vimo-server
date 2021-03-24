@@ -71,23 +71,18 @@ module.exports = {
       }
     })
 
-    let userInfo;
     let data = { id: 0 };
     const accessToken = req.cookies.accessToken;
-    console.log('쿠키: ' + req.cookies)
-    if (!accessToken) {
-      res.json({ data: null, message: "No accessToken" })
-    } else {
-
+    if (accessToken) {
       data = JWT.verify(accessToken, process.env.ACCESS_SECRET);
-
-      if (!data) {
-        res.json({ message: "Go refresh" })
-      }
-      userInfo = await users.findOne({
-        where: { id: data.id },
-      });
     }
+    console.log(data)
+    if (!data) {
+      res.json({ message: "Go refresh" })
+    }
+    const userInfo = await users.findOne({
+      where: { id: data.id }
+    })
 
 
     if (!userInfo) {
