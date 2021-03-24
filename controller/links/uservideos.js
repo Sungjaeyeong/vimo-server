@@ -43,7 +43,7 @@ module.exports = {
     });
 
     if (!userVideosInfo) {
-      res.status(402).send('No')
+      res.send({ data: null })
     } else {
       res.send({ data: userVideosInfo })
     }
