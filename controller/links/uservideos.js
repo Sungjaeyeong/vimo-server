@@ -1,4 +1,4 @@
-const { users_vidoes } = require('../../models');
+const { users_videos } = require('../../models');
 const JWT = require('jsonwebtoken');
 module.exports = {
   get: async (req, res) => {
@@ -35,7 +35,7 @@ module.exports = {
     }
 
     if (!data) data = { id: 0 }
-    const userVideosInfo = await users_vidoes.findOne({
+    const userVideosInfo = await users_videos.findOne({
       where: {
         userId: data.id,
         videoId: req.query.videoid
