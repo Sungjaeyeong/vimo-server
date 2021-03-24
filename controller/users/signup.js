@@ -10,17 +10,11 @@ module.exports = {
     if (userInfo.length > 0) {
       res.status(409).send('This email already exist.')
     } else {
-      let profileImage;
-      if (!req.body.profilePic) {
-        profileImage = 'https://vimo.link/images/default/profilepic.png';
-      } else {
-        profileImage = `https://vimo.link/images/default/${req.body.profilePic}`
-      }
       const insertUser = await users.create({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        profilePic: profileImage,
+        profilePic: 'https://vimo.link/images/default/profilepic.png',
         isSocialLogin: req.body.isSocialLogin
       })
       res.status(201).send('created!')
