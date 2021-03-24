@@ -30,9 +30,9 @@ module.exports = {
 
     // 새롭게 올라온 메모
     const newMemos = await memos.findAll({
-      // include: [{
-      //   model: users
-      // }],
+      include: [{
+        model: users
+      }],
       order: [
         ['createdAt', 'DESC']
       ],
