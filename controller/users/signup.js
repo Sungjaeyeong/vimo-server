@@ -11,7 +11,7 @@ module.exports = {
       res.status(409).send('This email already exist.')
     } else {
       let profileImage;
-      if (req.body.profilePic === '') {
+      if (!req.body.profilePic) {
         profileImage = 'https://vimo.link/images/default/profilepic.png';
       } else {
         profileImage = `https://vimo.link/images/default/${req.body.profilePic}`
