@@ -72,6 +72,18 @@ module.exports = {
     })
 
     let data = { id: 0 };
+    const authorization = req.headers['authorization'];
+    if (!authorization) {
+      res.json({ data: null, message: "invalid access token" })
+    } else {
+      const token = authorization.split(' ')[1];
+      if (token) {
+        data = JWT.verify(token, process.env.ACCESS_SECRET);
+      }
+
+    }
+
+
     const accessToken = req.cookies.accessToken;
     if (accessToken) {
       data = JWT.verify(accessToken, process.env.ACCESS_SECRET);

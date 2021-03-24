@@ -46,7 +46,7 @@ module.exports = {
           // sameSite: 'none'
         })
       res.status(200).send({
-        // data: { accessToken },
+        data: { accessToken },
         message: 'Ok'
       })
     } else {
