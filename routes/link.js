@@ -9,4 +9,6 @@ router.get('/mypage', linksController.mypage.get);
 
 router.get('/searchvideos', linksController.searchvideos.get);
 
+router.get('/uservideos', linksController.uservideos.get);
+
 module.exports = router;
