@@ -93,23 +93,23 @@ module.exports = {
     }
     console.log(data)
 
-    // let expire = false;
-    // let cookieData;
-    // const accessToken = req.cookies.accessToken;
-    // if (accessToken) {
-    //   cookieData = JWT.verify(accessToken, process.env.ACCESS_SECRET);
-    // }
-    // if (expire === true) {
-    //   if (!req.cookies.refreshToken) {
-    //     res.json({ message: "refresh token not provided" })
-    //   } else {
+    let expire = false;
+    let cookieData;
+    const accessToken = req.cookies.accessToken;
+    if (accessToken) {
+      cookieData = JWT.verify(accessToken, process.env.ACCESS_SECRET);
+    }
+    if (expire === true) {
+      if (!req.cookies.refreshToken) {
+        res.json({ message: "refresh token not provided" })
+      } else {
 
-    //   }
-    // }
+      }
+    }
 
-    // if (!stateData) {
-    //   data = cookieData;
-    // }
+    if (!stateData) {
+      data = cookieData;
+    }
     if (!data) data = { id: 0 }
     const userInfo = await users.findOne({
       where: { id: data.id }
