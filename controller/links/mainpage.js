@@ -1,7 +1,6 @@
 const { users, videos, memos, users_videos } = require('../../models');
 const sequelize = require('sequelize');
 const JWT = require('jsonwebtoken');
-const { refreshTokenRequest } = require('../users');
 
 module.exports = {
   get: async (req, res) => {

@@ -1,4 +1,5 @@
 const { users, memos } = require('../../models')
+const JWT = require('jsonwebtoken');
 module.exports = {
   get: async (req, res) => {
 
