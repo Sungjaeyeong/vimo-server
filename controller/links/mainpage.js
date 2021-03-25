@@ -166,17 +166,21 @@ module.exports = {
     } else {
 
       // 감상한 비디오
-      const myVideos = await users_videos.findAll({
+      const userVideosId = await users_videos.findAll({
         where: {
           userId: userInfo.id,
         },
         order: [
           ['updatedAt', 'DESC']
         ],
-        include: [{
-          model: videos
-        }],
+        attributes: ['videoId'],
         limit: 10
+      });
+
+      const myVideos = await videos.findAll({
+        where: {
+          userId: userVideosId
+        },
       });
 
       if (!myVideos) {
