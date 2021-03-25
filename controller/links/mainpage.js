@@ -219,6 +219,7 @@ module.exports = {
         message: 'Ok',
         data: {
           userId: userInfo.id,
+          username: userInfo.username,
           myVideos,
           popularVideos,
           newVideos,
