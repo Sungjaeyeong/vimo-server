@@ -173,7 +173,6 @@ module.exports = {
         order: [
           ['updatedAt', 'DESC']
         ],
-        limit: 10
       })
 
       if (!userVideos) {
@@ -186,18 +185,17 @@ module.exports = {
         where: {
           id: userVideosId
         },
+        limit: 10
       });
 
       if (!myVideos) {
         return res.status(404).send('No myVideos')
       }
 
-      const myVideosId = myVideos.map(item => item.videoId);
-
       // 감상한 컨텐츠의 메모
       const viewdContentsMemos = await memos.findAll({
         where: {
-          videoId: myVideosId
+          videoId: userVideosId
         },
         include: [{
           model: users
