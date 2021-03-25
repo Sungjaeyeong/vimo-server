@@ -208,6 +208,7 @@ module.exports = {
       res.status(200).send({
         message: 'Ok',
         data: {
+          userId: userInfo.id,
           myVideos,
           popularVideos,
           newVideos,
