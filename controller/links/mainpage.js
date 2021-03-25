@@ -173,6 +173,9 @@ module.exports = {
         order: [
           ['updatedAt', 'DESC']
         ],
+        include: [{
+          model: videos
+        }],
         limit: 10
       });
 
