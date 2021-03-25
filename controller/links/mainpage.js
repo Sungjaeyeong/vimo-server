@@ -183,9 +183,9 @@ module.exports = {
       //   },
       // });
 
-      if (!myVideos) {
-        return res.status(404).send('No myVideos')
-      }
+      // if (!myVideos) {
+      //   return res.status(404).send('No myVideos')
+      // }
 
       const myVideosId = myVideos.map(item => item.videoId);
 
@@ -217,7 +217,6 @@ module.exports = {
         data: {
           userId: userInfo.id,
           userVideosId,
-          myVideos,
           popularVideos,
           newVideos,
           newMemos,
