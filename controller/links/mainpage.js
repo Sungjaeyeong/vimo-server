@@ -217,6 +217,7 @@ module.exports = {
         data: {
           userId: userInfo.id,
           userVideosId,
+          myVideos,
           popularVideos,
           newVideos,
           newMemos,
