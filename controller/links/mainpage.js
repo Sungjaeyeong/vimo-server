@@ -136,6 +136,7 @@ module.exports = {
         include: [{
           model: users
         }],
+        limit: 7
       })
 
       if (!colletionMemos) {
