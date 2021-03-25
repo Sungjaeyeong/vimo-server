@@ -14,7 +14,7 @@ module.exports = {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        profilePic: 'https://vimo.link/images/default/profilepic.png',
+        profilePic: 'https://vimo.link/images/defaultProfilepic.png',
         isSocialLogin: req.body.isSocialLogin
       })
       res.status(201).send('created!')
