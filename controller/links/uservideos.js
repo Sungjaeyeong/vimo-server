@@ -43,7 +43,7 @@ module.exports = {
     });
 
     if (!userVideosInfo) {
-      res.send({ data: null })
+      res.send({ data: { currenttime: null } })
     } else {
       res.send({ data: userVideosInfo })
     }
