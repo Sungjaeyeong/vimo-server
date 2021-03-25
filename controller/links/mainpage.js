@@ -166,18 +166,21 @@ module.exports = {
     } else {
 
       // 감상한 비디오
-      const userVideosId = await users_videos.findAll({
+      const userVideos = await users_videos.findAll({
         where: {
           userId: userInfo.id,
         },
         order: [
           ['updatedAt', 'DESC']
         ],
-        attributes: ['videoId'],
         limit: 10
-      });
+      })
 
-      // const userVideosId = userVideos.map(el => el.videoId)
+      if (!userVideos) {
+        return res.status(404).send('No colletionMemos')
+      }
+
+      const userVideosId = userVideos.map(el => el.videoId);
 
       const myVideos = await videos.findAll({
         where: {
