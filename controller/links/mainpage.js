@@ -166,21 +166,22 @@ module.exports = {
     } else {
 
       // 감상한 비디오
-      const userVideos = await users_videos.findAll({
+      const userVideosId = await users_videos.findAll({
         where: {
           userId: userInfo.id,
         },
         order: [
           ['updatedAt', 'DESC']
         ],
+        attributes: ['videoId'],
         limit: 10
       });
 
-      const userVideosId = userVideos.map(el => el.videoId)
+      // const userVideosId = userVideos.map(el => el.videoId)
 
       const myVideos = await videos.findAll({
         where: {
-          userId: userVideosId
+          id: userVideosId
         },
       });
 
