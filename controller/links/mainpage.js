@@ -177,11 +177,11 @@ module.exports = {
         limit: 10
       });
 
-      const myVideos = await videos.findAll({
-        where: {
-          userId: userVideosId
-        },
-      });
+      // const myVideos = await videos.findAll({
+      //   where: {
+      //     userId: userVideosId
+      //   },
+      // });
 
       if (!myVideos) {
         return res.status(404).send('No myVideos')
@@ -216,7 +216,7 @@ module.exports = {
         message: 'Ok',
         data: {
           userId: userInfo.id,
-          myVideos,
+          userVideosId,
           popularVideos,
           newVideos,
           newMemos,
