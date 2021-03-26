@@ -14,7 +14,6 @@ module.exports = {
       }
       data = stateData
     }
-    console.log(data)
 
     let expire = false;
     let cookieData;
