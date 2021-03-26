@@ -83,12 +83,11 @@ module.exports = {
       res.json({ data: null, message: "invalid access token" })
     } else {
       const token = authorization.split(' ')[1];
-      if (token) {
+      if (token !== '' && token) {
         stateData = JWT.verify(token, process.env.ACCESS_SECRET);
       }
       data = stateData
     }
-    console.log(data)
 
     let expire = false;
     let cookieData;
@@ -136,6 +135,7 @@ module.exports = {
         include: [{
           model: users
         }],
+        limit: 7
       })
 
       if (!colletionMemos) {
@@ -166,13 +166,25 @@ module.exports = {
     } else {
 
       // 감상한 비디오
-      const myVideos = await users_videos.findAll({
+      const userVideos = await users_videos.findAll({
         where: {
           userId: userInfo.id,
         },
         order: [
           ['updatedAt', 'DESC']
         ],
+      })
+
+      if (!userVideos) {
+        return res.status(404).send('No colletionMemos')
+      }
+
+      const userVideosId = userVideos.map(el => el.videoId);
+
+      const myVideos = await videos.findAll({
+        where: {
+          id: userVideosId
+        },
         limit: 10
       });
 
@@ -180,12 +192,10 @@ module.exports = {
         return res.status(404).send('No myVideos')
       }
 
-      const myVideosId = myVideos.map(item => item.videoId);
-
       // 감상한 컨텐츠의 메모
       const viewdContentsMemos = await memos.findAll({
         where: {
-          videoId: myVideosId
+          videoId: userVideosId
         },
         include: [{
           model: users
@@ -208,6 +218,8 @@ module.exports = {
       res.status(200).send({
         message: 'Ok',
         data: {
+          userId: userInfo.id,
+          username: userInfo.username,
           myVideos,
           popularVideos,
           newVideos,

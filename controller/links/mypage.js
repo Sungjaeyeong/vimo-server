@@ -11,12 +11,11 @@ module.exports = {
       res.json({ data: null, message: "invalid access token" })
     } else {
       const token = authorization.split(' ')[1];
-      if (token) {
+      if (token !== '' && token) {
         stateData = JWT.verify(token, process.env.ACCESS_SECRET);
       }
       data = stateData
     }
-    console.log(data)
 
     let expire = false;
     let cookieData;
